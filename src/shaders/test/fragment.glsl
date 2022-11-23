@@ -1,8 +1,18 @@
+#define PI 3.1415926535897932384626433832795
+
 varying vec2 vUv;
 
 float random(vec2 st)
 {
     return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+}
+
+vec2 rotate(vec2 uv, float rotation, vec2 mid)
+{
+    return vec2(
+      cos(rotation) * (uv.x - mid.x) + sin(rotation) * (uv.y - mid.y) + mid.x,
+      cos(rotation) * (uv.y - mid.y) - sin(rotation) * (uv.x - mid.x) + mid.y
+    );
 }
 
 void main()
@@ -123,12 +133,106 @@ void main()
     // );
     // float strength = random(gridUV);
     
-    // Pattern 25 playing
-    vec2 gridUV = vec2(
-        (floor(vUv.x * 10.0) / 10.0),
-        floor(cos(vUv.y) * 20.0 + sin(vUv.x) * 5.0) / (10.0)
+    // // Pattern 25 playing
+    // vec2 gridUV = vec2(
+    //     (floor(vUv.x * 10.0) / 10.0),
+    //     floor(cos(vUv.y) * 20.0 + sin(vUv.x) * 5.0) / (10.0)
+    // );
+    // float strength = random(gridUV);
+    
+    // // Pattern 26
+    // float strength = length(vUv);
+    
+    // Pattern 27
+    // float strength = length(vUv - .5);
+    // float strength = distance(vUv, vec2(.5));
+    
+    // Pattern 28
+    // float strength = 1.0 - length(vUv - .5);
+    // float strength = 1.0 - distance(vUv, vec2(.5));
+    
+    // // Pattern 29
+    // float strength = .015 / distance(vUv, vec2(.5));
+    
+    // // Pattern 30
+    // vec2 lightUv = vec2(
+    //     vUv.x * .1 + .45,
+    //     vUv.y * .5 + .25
+    // );
+    // float strength = .015 / distance(lightUv, vec2(.5));
+    
+    // // Pattern 31
+    // vec2 lightUvX = vec2( vUv.x * .1 + .45, vUv.y * .5 + .25);
+    // float lightX = .015 / distance(lightUvX, vec2(.5));
+    
+    // vec2 lightUvY = vec2( vUv.y * .1 + .45, vUv.x * .5 + .25);
+    // float lightY = .015 / distance(lightUvY, vec2(.5));
+    
+    // float strength = lightX * lightY;
+    
+    // // Pattern 32
+    // vec2 rotatedUv = rotate(vUv, PI * .25, vec2(.5));
+    // vec2 lightUvX = vec2( rotatedUv.x * .1 + .45, rotatedUv.y * .5 + .25);
+    // float lightX = .015 / distance(lightUvX, vec2(.5));
+    
+    // vec2 lightUvY = vec2( rotatedUv.y * .1 + .45, rotatedUv.x * .5 + .25);
+    // float lightY = .015 / distance(lightUvY, vec2(.5));
+    
+    // float strength = lightX * lightY;
+
+    // Pattern 33
+    // float strength = step(.25, distance(vUv, vec2(.5)));
+
+    // // Pattern 34
+    // float strength = abs(distance(vUv, vec2(.5)) - .25);
+
+    // // Pattern 35
+    // float strength = step(.01, abs(distance(vUv, vec2(.5)) - .25));
+
+    // // Pattern 36
+    // float strength = 1.0 - step(.01, abs(distance(vUv, vec2(.5)) - .25));
+
+    // // Pattern 37
+    // vec2 wavedUv = vec2(
+    //     vUv.x,
+    //     vUv.y + sin(vUv.x * 30.5) * .15
+    // );
+    // float strength = 1.0 - step(.01, abs(distance(wavedUv, vec2(.5)) - .25));
+
+    // // Pattern 38 rorschach looking thing
+    // vec2 wavedUv = vec2(
+    //     vUv.x + sin(vUv.y * 30.5) * .15,
+    //     vUv.y + sin(vUv.x * 30.5) * .15
+    // );
+    // float strength = 1.0 - step(.01, abs(distance(wavedUv, vec2(.5)) - .25));
+
+    // // Pattern 38 play - snake head
+    // vec2 wavedUv = vec2(
+    //     vUv.x + sin(vUv.y * 9.0) * .15,
+    //     vUv.y + sin(vUv.x * 1000.5) * .15
+    // );
+    // float strength = 1.0 - step(.01, abs(distance(wavedUv, vec2(.5)) - .25));
+    
+    // // Pattern 38 play - snake skin
+    // vec2 wavedUv = vec2(
+    //     vUv.x + cos(vUv.y * 50.0) * .15,
+    //     vUv.y + tan(vUv.x * 50.5) * .15
+    // );
+    // float strength = 1.0 - step(.01, abs(distance(wavedUv, vec2(.5)) - .25));
+    
+    // // Pattern 38 play - mamba pattern
+    // vec2 wavedUv = vec2(
+    //     vUv.x + tan(vUv.y * 50.0) * .15,
+    //     vUv.y + tan(vUv.x * 50.5) * .15
+    // );
+    // float strength = 1.0 - step(.01, abs(distance(wavedUv, vec2(.5)) - .25));
+    
+    // Pattern 39
+    vec2 wavedUv = vec2(
+        vUv.x + cos(vUv.y * 90.0) * .15,
+        vUv.y + cos(vUv.x * 90.0) * .15
     );
-    float strength = random(gridUV);
+    float strength = 1.0 - step(.01, abs(distance(wavedUv, vec2(.5)) - .25));
 
     gl_FragColor = vec4(vec3(strength), 1.0);
 }
