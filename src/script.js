@@ -22,6 +22,8 @@ const scene = new THREE.Scene()
  */
 // Geometry
 const geometry = new THREE.PlaneGeometry(1, 1, 32, 32)
+// const geometry = new THREE.SphereGeometry(.5)
+// const geometry = new THREE.BoxGeometry()
 
 // Material
 const material = new THREE.ShaderMaterial({
