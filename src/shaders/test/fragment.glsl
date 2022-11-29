@@ -1,5 +1,7 @@
 #define PI 3.1415926535897932384626433832795
 
+uniform float uTime;
+
 varying vec2 vUv;
 
 float random(vec2 st)
@@ -55,7 +57,7 @@ float cnoise(vec2 P){
   vec2 fade_xy = fade(Pf.xy);
   vec2 n_x = mix(vec2(n00, n01), vec2(n10, n11), fade_xy.x);
   float n_xy = mix(n_x.x, n_x.y, fade_xy.y);
-  return 2.3 * n_xy;
+  return 2.3 * n_xy * uTime * cos(uTime);
 }
 
 void main()
@@ -114,14 +116,14 @@ void main()
     // strength += step(.8, mod(vUv.x * 10.0, 1.0));
     // strength *= step(.4, mod(vUv.y * 10.0, 1.0));
     
-    // Pattern 14 
+    // // Pattern 14 
     // float barX = step(.4, mod(vUv.x * 10.0, 1.0));
     // barX *= step(.8, mod(vUv.y * 10.0, 1.0));
     // float barY = step(.8, mod(vUv.x * 10.0, 1.0));
     // barY *= step(.4, mod(vUv.y * 10.0, 1.0));
     // float strength = barX + barY;
     
-    // Pattern 15
+    // // Pattern 15
     // float barX = step(.4, mod(vUv.x * 10.0, 1.0));
     // barX *= step(.8, mod(vUv.y * 10.0 + .2, 1.0));
 
@@ -317,8 +319,27 @@ void main()
     // // Pattern 46
     // float strength = cnoise(vUv * 10.0);
 
-    // Pattern 47
-    float strength = step(0.0, cnoise(vUv * 10.0));
+    // // Pattern 47
+    // float strength = step(0.0, cnoise(vUv * 10.0));
 
-    gl_FragColor = vec4(vec3(strength), 1.0);
+    // // Pattern 48
+    float strength = 1.0 - abs(cnoise(vUv * 10.0));
+
+    // // Pattern 49
+    // float strength = sin(cnoise(vUv * 10.0) * 20.0);
+
+    // // Pattern 50 - black and white version
+    // float strength = step(0.9, sin(cnoise(vUv * 10.0) * 20.0));
+
+    // Clamp the strength
+    // strength = clamp(strength, 0.0, 1.0);
+
+    // Pattern 50 - colored version
+    vec3 blackColor = vec3(.25, 0.0, .25) * 1.0 - uTime * uTime;
+    vec3 uvColor = vec3(1.0, vUv);
+    // float strength = step(0.9, sin(cnoise(vUv * 10.0) * 20.0));
+    vec3 mixedColor = mix(blackColor, uvColor, strength);
+    gl_FragColor = vec4(mixedColor, 1.0);
+
+    // gl_FragColor = vec4(vec3(strength), 1.0);
 }
